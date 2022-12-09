@@ -33,7 +33,7 @@ pub async fn run(ip: &str) -> std::io::Result<()> {
         142, 163, 1, 8, 82, 152, 16, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 74,
         0, 0, 0, 74, 0, 2, 0, 35, 0, 0, 0, 7, 0, 92, 80, 73, 80, 69, 92, 0,
     ];
-    let mut trans2_session_setup = [
+    let mut trans_session_setup = [
         0, 0, 0, 78, 255, 83, 77, 66, 50, 0, 0, 0, 0, 24, 7, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
         255, 254, 0, 8, 65, 0, 15, 12, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 166, 217, 164, 0, 0, 0, 12, 0, 66, 0,
         0, 0, 78, 0, 1, 0, 14, 0, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -103,11 +103,11 @@ pub async fn run(ip: &str) -> std::io::Result<()> {
         println!("{ip} {} 存在 MS17-010 漏洞", String::from_utf8_lossy(&os));
 
         // detect present of DOUBLEPULSAR SMB implant
-        trans2_session_setup[28] = tree_id[0];
-        trans2_session_setup[29] = tree_id[1];
-        trans2_session_setup[32] = user_id[0];
-        trans2_session_setup[33] = user_id[1];
-        conn.write_all(&trans2_session_setup).await?;
+        trans_session_setup[28] = tree_id[0];
+        trans_session_setup[29] = tree_id[1];
+        trans_session_setup[32] = user_id[0];
+        trans_session_setup[33] = user_id[1];
+        conn.write_all(&trans_session_setup).await?;
 
         let size = conn.read(&mut reply).await?;
         if size < 36 {

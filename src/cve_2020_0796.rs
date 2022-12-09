@@ -16,12 +16,14 @@ const REQUEST: [u8; 196] = [
 
 const PUBLIC: [u8; 6] = [80, 117, 98, 108, 105, 99];
 
-pub async fn run(ip: &str) {
-    let mut conn = TcpStream::connect(ip).await.unwrap();
-    conn.write_all(&REQUEST).await.unwrap();
+pub async fn run(ip: &str) -> std::io::Result<()> {
+    let mut conn = TcpStream::connect(ip).await?;
+    conn.write_all(&REQUEST).await?;
     let mut buf = vec![0; 1024];
-    let n = conn.read(&mut buf).await.unwrap();
+    let n = conn.read(&mut buf).await?;
     if contains(&buf[..n], &PUBLIC) == true {
         println!("{ip} 存在 CVE-2020-0796 漏洞")
     }
+
+    Ok(())
 }
