@@ -4,10 +4,10 @@ use tokio::time;
 #[tokio::main]
 async fn main() {
     let list = vec![
-        "192.168.31.30:445",
+        "192.168.31.30:445", // win7 vm
         "192.168.31.31:445",
-        "192.168.31.196:445",
-        "192.168.31.241:445",
+        "192.168.31.196:445", //mypc
+        "192.168.31.241:445", //win10 vm
     ];
 
     let duration = tokio::time::Duration::from_secs(1);
