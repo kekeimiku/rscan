@@ -1,4 +1,7 @@
-use tokio::{net::TcpStream, io::{AsyncWriteExt, AsyncReadExt}};
+use tokio::{
+    io::{AsyncReadExt, AsyncWriteExt},
+    net::TcpStream,
+};
 
 const NEGOTIATE_PROTOCOL: [u8; 137] = [
     0, 0, 0, 133, 255, 83, 77, 66, 114, 0, 0, 0, 0, 24, 83, 192, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -97,8 +100,7 @@ pub async fn run(ip: &str) -> std::io::Result<()> {
     }
 
     if reply[9..13] == [0x05, 0x02, 0x00, 0xc0] {
-        // println!("{ip} {} is likely VULNERABLE to MS17-010!", String::from_utf8_lossy(&os));
-        println!("{ip} 存在 MS17-010 漏洞");
+        println!("{ip} {} 存在 MS17-010 漏洞", String::from_utf8_lossy(&os));
 
         // detect present of DOUBLEPULSAR SMB implant
         trans2_session_setup[28] = tree_id[0];
